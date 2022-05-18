@@ -116,7 +116,7 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 				auth = authenticateUser(si, msg, key)
 				if auth {
 					log.Println("[CLIENT] Authenticated.")
-					_ = sess.SendMessage(0, "[SERVER] Authenticated.")
+					_ = sess.SendMessage(0, "Authenticated.")
 				}
 				continue
 			}

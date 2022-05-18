@@ -3,7 +3,7 @@
 GNet is a simple go tcp network implementation, 
 it's made for games but, suits for other use cases too.
 
-> Version 0.6
+> Version 0.07
 
 ## Missing Features
 
@@ -11,8 +11,8 @@ it's made for games but, suits for other use cases too.
 
 ## Changelog
 
-- Removed Log Message
-- Client message queue fix
+- Client message list fix
+- Server auth message typo fix
 
 ## Usage
 
