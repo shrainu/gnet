@@ -77,6 +77,9 @@ func (c *Client) ConnectToServer(address string) error {
 			c.Session.Close()
 		}
 
+		// Clear the queue
+		msgQueue = nil
+
 		msg := string(buffer[:n])
 
 		for {

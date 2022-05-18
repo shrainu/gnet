@@ -42,9 +42,6 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 		return
 	}
 
-	// Log
-	log.Println("[SERVER] Connected.")
-
 	// Send the auth key
 	keyBuffer := make([]byte, 8)
 	binary.BigEndian.PutUint64(keyBuffer, key)
@@ -119,7 +116,7 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 				auth = authenticateUser(si, msg, key)
 				if auth {
 					log.Println("[CLIENT] Authenticated.")
-					_ = sess.SendMessage(00, "[SERVER] Authenticated.")
+					_ = sess.SendMessage(0, "[SERVER] Authenticated.")
 				}
 				continue
 			}
