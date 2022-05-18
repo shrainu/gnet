@@ -52,6 +52,9 @@ func (c *Client) ConnectToServer(address string) error {
 		Active: true,
 	}
 
+	// Log
+	log.Println("[CLIENT] Connected.")
+
 	// Buffer
 	buffer := make([]byte, 4096)
 

@@ -27,7 +27,6 @@ func NewServer(si ServerInterface) *Server {
 
 func authenticateUser(si ServerInterface, m Message, key uint64) bool {
 	i := binary.BigEndian.Uint64([]byte(m.Content))
-	log.Printf("[SERVER] Server Key `%d` : Client Key `%d`.\n", i, si.Shuffle(key))
 	if i == si.Shuffle(key) {
 		return true
 	}
@@ -120,6 +119,7 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 				auth = authenticateUser(si, msg, key)
 				if auth {
 					log.Println("[CLIENT] Authenticated.")
+					_ = sess.SendMessage(00, "[SERVER] Authenticated.")
 				}
 				continue
 			}
