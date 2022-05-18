@@ -44,7 +44,7 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 	}
 
 	// Log
-	log.Println("[CLIENT] Connected.")
+	log.Println("[SERVER] Connected.")
 
 	// Send the auth key
 	keyBuffer := make([]byte, 8)
@@ -118,6 +118,9 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 		for _, msg := range msgQueue {
 			if !auth {
 				auth = authenticateUser(si, msg, key)
+				if auth {
+					log.Println("[CLIENT] Authenticated.")
+				}
 				continue
 			}
 
@@ -125,6 +128,7 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 		}
 
 		if !auth {
+			log.Println("[CLIENT] Failed to authenticate")
 			si.OnUserDisconnect(sess)
 			s.CloseSession(sess)
 			break
