@@ -60,6 +60,7 @@ func (c *Client) ConnectToServer(address string) error {
 
 	// Message Queue
 	var msgQueue []Message = nil
+	c.Messages = nil
 
 	// Authentication
 	auth := false
@@ -79,7 +80,6 @@ func (c *Client) ConnectToServer(address string) error {
 
 		// Clear the queues
 		msgQueue = nil
-		c.Messages = nil
 
 		msg := string(buffer[:n])
 
