@@ -122,7 +122,6 @@ func (c *Client) ConnectToServer(address string) error {
 				auth = true
 				continue
 			}
-			log.Printf("%d - '%s'\n", msg.Type, msg.Content)
 			c.Channel <- msg
 		}
 	}
