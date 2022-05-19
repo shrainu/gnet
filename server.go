@@ -37,7 +37,6 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 
 	// Send on user connect event, accept connection according to result
 	if !si.OnUserConnect(sess) {
-		si.OnUserDisconnect(sess)
 		s.CloseSession(sess)
 		return
 	}
@@ -46,7 +45,6 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 	keyBuffer := make([]byte, 8)
 	binary.BigEndian.PutUint64(keyBuffer, key)
 	if err := sess.SendMessage(0, string(keyBuffer)); err != nil {
-		si.OnUserDisconnect(sess)
 		s.CloseSession(sess)
 		return
 	}
@@ -64,14 +62,13 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 		n, err := sess.Conn.Read(buffer)
 		if err != nil {
 			sess.Active = false
-			si.OnUserDisconnect(sess)
+			s.CloseSession(sess)
 			break
 		}
 
 		// Validate message length
 		if n <= 2 {
 			log.Println("[SERVER] Zero bytes. Closing the connection")
-			si.OnUserDisconnect(sess)
 			s.CloseSession(sess)
 		}
 
@@ -126,7 +123,6 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 
 		if !auth {
 			log.Println("[CLIENT] Failed to authenticate")
-			si.OnUserDisconnect(sess)
 			s.CloseSession(sess)
 			break
 		}
