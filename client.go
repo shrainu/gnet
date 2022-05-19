@@ -43,11 +43,13 @@ func (c *Client) Connected() bool {
 	return c.Session.Active
 }
 
-func (c *Client) SendMessage(t int, content string) {
+func (c *Client) SendMessage(t int, content string) bool {
 	err := c.Session.SendMessage(t, content)
 	if err != nil {
 		c.Session.Close()
+		return false
 	}
+	return true
 }
 
 func (c *Client) ConnectToServer(address string) error {
