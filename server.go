@@ -148,13 +148,13 @@ func (s *Server) StartServer(address string) error {
 	log.Println("[SERVER] Started.")
 
 	for {
-		if !s.Active {
-			break
-		}
-
 		conn, err := s.Listener.Accept()
 		if err != nil && s.Active {
 			return err
+		}
+
+		if !s.Active {
+			break
 		}
 
 		sess := &Session{
