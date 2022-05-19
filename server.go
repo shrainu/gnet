@@ -61,8 +61,10 @@ func (s *Server) serverHandleConnection(si ServerInterface, sess *Session, key u
 	for {
 		n, err := sess.Conn.Read(buffer)
 		if err != nil {
-			sess.Active = false
-			s.CloseSession(sess)
+			if sess.Active {
+				sess.Active = false
+				s.CloseSession(sess)
+			}
 			break
 		}
 
