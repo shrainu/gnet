@@ -147,6 +147,10 @@ func (s *Server) StartServer(address string) error {
 
 	for {
 		if !s.Active {
+			err := s.Listener.Close()
+			if err != nil {
+				log.Println("[SERVER] Error during termination:\n", err)
+			}
 			break
 		}
 
@@ -196,11 +200,6 @@ func (s *Server) CloseServer() {
 		user.Close()
 	}
 	s.Sessions = nil
-
-	err := s.Listener.Close()
-	if err != nil {
-		log.Println("[SERVER] Error during termination:\n", err)
-	}
 }
 
 func (s *Server) SendMessage(sess *Session, t int, content string) {
