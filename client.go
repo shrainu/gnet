@@ -37,7 +37,17 @@ func authenticateServer(ci ClientInterface, s *Session, m Message) error {
 }
 
 func (c *Client) Connected() bool {
+	if c.Session == nil {
+		return false
+	}
 	return c.Session.Active
+}
+
+func (c *Client) SendMessage(t int, content string) {
+	err := c.Session.SendMessage(t, content)
+	if err != nil {
+		c.Session.Close()
+	}
 }
 
 func (c *Client) ConnectToServer(address string) error {
