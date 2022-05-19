@@ -14,14 +14,14 @@ type ClientInterface interface {
 type Client struct {
 	Interface ClientInterface
 	Session   *Session
-	Messages  []Message
+	Channel   chan Message
 }
 
 func NewClient(ci ClientInterface) *Client {
 	return &Client{
 		Interface: ci,
 		Session:   nil,
-		Messages:  nil,
+		Channel:   nil,
 	}
 }
 
@@ -60,7 +60,6 @@ func (c *Client) ConnectToServer(address string) error {
 
 	// Message Queue
 	var msgQueue []Message = nil
-	c.Messages = nil
 
 	// Authentication
 	auth := false
@@ -124,7 +123,7 @@ func (c *Client) ConnectToServer(address string) error {
 				continue
 			}
 
-			c.Messages = append(c.Messages, msg)
+			c.Channel <- msg
 		}
 	}
 
